@@ -21,4 +21,34 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.metaborg</groupId>
+        <artifactId>spoofax-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>strip-jdk8</id>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <language>metaborg-java</language>
+              <goal>Strip implementation</goal>
+              <fileSets>
+                <fileSet>
+                  <directory>${basedir}/jdk8/src</directory>
+                  <includes>
+                    <include>**/*.jav</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
