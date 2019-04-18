@@ -6,6 +6,8 @@ dependencies:
   - org.metaborg:lang.java:1.1.0-SNAPSHOT
 sources:
 - language: metaborg-java
+  directory: commons-collections4/src
+- language: metaborg-java
   directory: jdk8/src
 build:
   useBuildSystemSpec: true
