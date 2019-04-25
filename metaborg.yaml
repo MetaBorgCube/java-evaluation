@@ -4,6 +4,7 @@ name: metaborg-java-evaluation
 dependencies:
   compile:
   - org.metaborg:lang.java:1.1.0-SNAPSHOT
+  # org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
 sources:
 - language: metaborg-java
   directory: commons-collections4/src
