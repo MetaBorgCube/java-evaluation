@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -eu
-
-MAVEN_OPTS="-Xss64M -Xms1G -Xmx4G -XX:MaxPermSize=1G"
-
-mvn spoofax:transform@strip-jdk8 && (find jdk8/src -name '*.jav' | grep -v '\.\(stripped\|manual\)\.jav' | xargs rm -f)

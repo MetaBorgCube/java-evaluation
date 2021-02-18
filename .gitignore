@@ -1,4 +1,10 @@
-/target/
-.classpath
+target/
+bin/
+src-gen/
+
 .project
+.classpath
 .settings/
+.factorypath
+
+*.pre-analysis.aterm

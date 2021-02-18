@@ -1,0 +1,16 @@
+---
+id: org.metaborg:lang.java.evaluation.commons-csv:1.7
+dependencies:
+  compile:
+  - org.metaborg:lang.java:1.1.0-SNAPSHOT
+  - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+  source:
+  # org.metaborg:lang.java.evaluation.jdk_skeletons:1.8
+sources:
+- language: metaborg-java
+  directory: src/main/java
+exports:
+- language: metaborg-java
+  directory: src/main/java
+build:
+  useBuildSystemSpec: true

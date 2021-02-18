@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lang.java.evaluation</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
-  <packaging>spoofax-project</packaging>
+  <packaging>pom</packaging>
 
   <parent>
     <groupId>org.metaborg</groupId>
     <artifactId>parent.language</artifactId>
     <version>2.6.0-SNAPSHOT</version>
-    <relativePath />
+    <relativePath/>
   </parent>
+
+  <modules>
+    <!--module>jdk8_commons</module-->
+    <!--module>jdk8_interfaces</module-->
+    <!--module>jdk8_reduced</module-->
+    <!--module>jdk8_skeletons</module-->
+    <!--module>commons-csv</module-->
+    <!--module>commons-io</module-->
+    <!--module>commons-lang3</module-->
+  </modules>
 
   <dependencies>
     <dependency>
@@ -19,12 +31,12 @@
       <version>1.1.0-SNAPSHOT</version>
       <type>spoofax-language</type>
     </dependency>
-    <!--dependency>
+    <dependency>
       <groupId>org.metaborg</groupId>
       <artifactId>lang.java.statics</artifactId>
       <version>1.1.0-SNAPSHOT</version>
       <type>spoofax-language</type>
-    </dependency-->
+    </dependency>
   </dependencies>
 
   <build>
@@ -35,23 +47,73 @@
         <extensions>true</extensions>
         <executions>
           <execution>
-            <id>strip-jdk8</id>
+            <id>make-aterms</id>
             <goals>
               <goal>transform</goal>
             </goals>
             <configuration>
               <language>metaborg-java</language>
-              <goal>Strip implementation</goal>
+              <goal>Show pre-analysis AST</goal>
               <fileSets>
                 <fileSet>
-                  <directory>${basedir}/jdk8/src</directory>
+                  <directory>${basedir}/src</directory>
                   <includes>
                     <include>**/*.jav</include>
                   </includes>
-                  <excludes>
-                    <exclude>**/*.manual.jav</exclude>
-                    <exclude>**/*.stripped.jav</exclude>
-                  </excludes>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+          <execution>
+            <id>strip-to-skeleton</id>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <language>metaborg-java</language>
+              <goal>Strip to skeleton</goal>
+              <fileSets>
+                <fileSet>
+                  <directory>${basedir}/src</directory>
+                  <includes>
+                    <include>**/*.jav</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+          <execution>
+            <id>strip-to-inferface</id>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <language>metaborg-java</language>
+              <goal>Strip to public interface</goal>
+              <fileSets>
+                <fileSet>
+                  <directory>${basedir}/src</directory>
+                  <includes>
+                    <include>**/*.jav</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-library</id>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <language>metaborg-java</language>
+              <goal>Make project library</goal>
+              <fileSets>
+                <fileSet>
+                  <directory>${basedir}/src</directory>
+                  <includes>
+                    <include>java/package-info*.jav</include>
+                  </includes>
                 </fileSet>
               </fileSets>
             </configuration>
