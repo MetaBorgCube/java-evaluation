@@ -22,6 +22,8 @@
     <!--module>commons-csv</module-->
     <!--module>commons-io</module-->
     <!--module>commons-lang3</module-->
+    <!--module>synthetic/indep-root</module-->
+    <!--module>synthetic/indep-pkg</module-->
   </modules>
 
   <dependencyManagement>
