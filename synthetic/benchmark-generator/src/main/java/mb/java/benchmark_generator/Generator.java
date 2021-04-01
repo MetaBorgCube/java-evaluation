@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Streams;
@@ -22,13 +23,19 @@ import mb.nabl2.util.Tuple2;
 
 public class Generator {
 
+    private enum Expr {
+        CALL, PLUS, MINUS
+    }
+
+    private Expr expr = Expr.CALL;
+
     private int packages = 100;
     private int classes = 1;
     private int fields = 50;
     private int methods = 100;
 
-    private int calls = 50;
-    private int callsVar = 10;
+    private int exprs = 50;
+    private int exprsVar = 10;
 
     private int args = 5;
     private int argsVar = 3;
@@ -37,6 +44,7 @@ public class Generator {
     private static final String field_tmpl = "\tprivate int f%d = %d;%n";
     private static final String method_tmpl = "\tprivate int %s(%s) {%n%s\t\treturn %s;%n\t};%n%n";
     private static final String call_tmpl = "\t\tint v%d = %s(%s);%n";
+    private static final String plusminus_tmpl = "\t\tint v%d = %s;%n";
 
     private final Random random = new Random();
 
@@ -98,7 +106,7 @@ public class Generator {
                         System.err.println("Missing parameter to " + arg);
                         return;
                     }
-                    generator.calls = Integer.parseInt(it.next());
+                    generator.exprs = Integer.parseInt(it.next());
                     break;
                 case "-iv":
                 case "--invokes-variance":
@@ -106,7 +114,7 @@ public class Generator {
                         System.err.println("Missing parameter to " + arg);
                         return;
                     }
-                    generator.callsVar = Integer.parseInt(it.next());
+                    generator.exprsVar = Integer.parseInt(it.next());
                     break;
                 case "-a":
                 case "--args":
@@ -123,6 +131,14 @@ public class Generator {
                         return;
                     }
                     generator.argsVar = Integer.parseInt(it.next());
+                    break;
+                case "-b":
+                case "--body":
+                    if(!it.hasNext()) {
+                        System.err.println("Missing parameter to " + arg);
+                        return;
+                    }
+                    generator.expr = Expr.valueOf(it.next().toUpperCase());
                     break;
                 default:
                     outputDir = new File(arg);
@@ -147,7 +163,7 @@ public class Generator {
                 + "- classes = " + generator.classes + "\n" //
                 + "- fields = " + generator.fields + "\n" //
                 + "- methods = " + generator.methods + "\n" //
-                + "- calls = " + generator.calls + " ± " + generator.callsVar + "\n" //
+                + "- calls = " + generator.exprs + " ± " + generator.exprsVar + "\n" //
                 + "- args = " + args + " ± " + generator.argsVar + "\n";
 
         try {
@@ -225,22 +241,38 @@ public class Generator {
         vars.addAll(fieldNames);
 
         StringBuilder bodyBuilder = new StringBuilder();
-        int callCount = random.nextInt(2 * callsVar + 1) + calls - callsVar;
+        int callCount = random.nextInt(2 * exprsVar + 1) + exprs - exprsVar;
 
         for(int i = 0; i < callCount; i++) {
-            bodyBuilder.append(generateCall(i, vars));
+            bodyBuilder.append(generateExpr(i, vars));
             vars.add(String.format("v%d", i));
         }
 
         return String.format(method_tmpl, name, args, bodyBuilder, vars.get(vars.size() - 1));
     }
 
-    private String generateCall(int targetVarId, List<String> vars) {
-        Tuple2<String, Integer> method = randomElement(methodSignatures);
-        String actualParams =
-                IntStream.range(0, method._2()).mapToObj(i -> randomElement(vars)).collect(Collectors.joining(", "));
+    private String generateExpr(int targetVarId, List<String> vars) {
+        switch(expr) {
+            case CALL: {
+                Tuple2<String, Integer> method = randomElement(methodSignatures);
+                final Stream<String> args = IntStream.range(0, method._2()).mapToObj(i -> randomElement(vars));
+                return String.format(call_tmpl, targetVarId, method._1(), args.collect(Collectors.joining(", ")));
+            }
+            case PLUS: {
+                int argCount = random.nextInt(2 * argsVar + 1) + args;
+                final Stream<String> args = IntStream.range(0, argCount).mapToObj(i -> randomElement(vars));
+                return String.format(plusminus_tmpl, targetVarId, args.collect(Collectors.joining(" + ")));
+            }
+            case MINUS: {
+                int argCount = random.nextInt(2 * argsVar + 1) + args;
+                final Stream<String> args = IntStream.range(0, argCount).mapToObj(i -> randomElement(vars));
+                return String.format(plusminus_tmpl, targetVarId, args.collect(Collectors.joining(" - ")));
+            }
+            default:
+                throw new IllegalStateException("Unexpected expression type " + expr);
+        }
 
-        return String.format(call_tmpl, targetVarId, method._1(), actualParams);
+
     }
 
     private <T> T randomElement(List<T> list) {
