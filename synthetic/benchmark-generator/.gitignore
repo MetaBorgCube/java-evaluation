@@ -1,0 +1,7 @@
+META-INF/
+target/
+
+.DS_Store
+.settings
+.project
+.classpath
