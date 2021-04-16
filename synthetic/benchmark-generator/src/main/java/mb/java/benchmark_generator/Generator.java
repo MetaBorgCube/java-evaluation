@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.metaborg.util.tuple.Tuple2;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Streams;
 import com.google.common.io.Files;
-
-import mb.nabl2.util.Tuple2;
 
 public class Generator {
 
