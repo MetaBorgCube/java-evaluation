@@ -1,0 +1,10 @@
+digraph "summary" {
+  "org.apache.commons.csv"                           -> "java.io (java.base)";
+  "org.apache.commons.csv"                           -> "java.lang (java.base)";
+  "org.apache.commons.csv"                           -> "java.net (java.base)";
+  "org.apache.commons.csv"                           -> "java.nio (java.base)";
+  "org.apache.commons.csv"                           -> "java.nio.charset (java.base)";
+  "org.apache.commons.csv"                           -> "java.nio.file (java.base)";
+  "org.apache.commons.csv"                           -> "java.sql (java.sql)";
+  "org.apache.commons.csv"                           -> "java.util (java.base)";
+}

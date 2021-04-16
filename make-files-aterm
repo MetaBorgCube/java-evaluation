@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eu
+
+mvn org.metaborg:spoofax-maven-plugin:transform@make-aterms
+
+result=files.aterm
+files=$(find "$@" -name '*.pre-analysis.aterm')
+
+first=1
+echo "[" >$result
+for file in $files; do
+    if [ $first -eq 0 ]; then
+        echo "," >>$result
+    fi
+    cat $file | sed -e 's/\.pre-analysis.aterm/\.jav/g' | sed -e 's/src\/main\/java\///g' >>$result
+    first=0
+done
+echo "]" >>$result
+
+rm -f $files
