@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eu
+
+files=$(find "$@" -name '*.pre-analysis.aterm')
+
+rm -f $files
