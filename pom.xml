@@ -10,15 +10,10 @@
   <packaging>pom</packaging>
 
   <modules>
-    <!--module>jdk8_commons</module-->
-    <!--module>jdk8_interfaces</module-->
-    <!--module>jdk8_reduced</module-->
-    <!--module>jdk8_skeletons</module-->
-    <!--module>commons-csv</module-->
-    <!--module>commons-io</module-->
-    <!--module>commons-lang3</module-->
-    <!--module>synthetic/indep-root</module-->
-    <!--module>synthetic/indep-pkg</module-->
+    <module>commons-csv</module>
+    <module>commons-io</module>
+    <module>commons-lang3</module>
+    <module>synthetic/single-unit-clusters</module>
   </modules>
 
   <dependencies>
