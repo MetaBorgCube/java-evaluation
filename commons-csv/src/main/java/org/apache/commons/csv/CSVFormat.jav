@@ -782,7 +782,7 @@ public final class CSVFormat implements Serializable {
         this.recordSeparator = recordSeparator;
         this.nullString = nullString;
         this.headerComments = toStringArray(headerComments);
-        this.header = header == null ? null : header.clone();
+        this.header = header == null ? null : (String[]) header.clone();
         this.skipHeaderRecord = skipHeaderRecord;
         this.ignoreHeaderCase = ignoreHeaderCase;
         this.trailingDelimiter = trailingDelimiter;
@@ -943,7 +943,7 @@ public final class CSVFormat implements Serializable {
      * @return a copy of the header array; {@code null} if disabled, the empty array if to be read from the file
      */
     public String[] getHeader() {
-        return header != null ? header.clone() : null;
+        return header != null ? (String[]) header.clone() : null;
     }
 
     /**
@@ -952,7 +952,7 @@ public final class CSVFormat implements Serializable {
      * @return a copy of the header comment array; {@code null} if disabled.
      */
     public String[] getHeaderComments() {
-        return headerComments != null ? headerComments.clone() : null;
+        return headerComments != null ? (String[]) headerComments.clone() : null;
     }
 
     /**
@@ -1882,7 +1882,7 @@ public final class CSVFormat implements Serializable {
     public CSVFormat withHeader(final Class<? extends Enum<?>> headerEnum) {
         String[] header = null;
         if (headerEnum != null) {
-            final Enum<?>[] enumValues = headerEnum.getEnumConstants();
+            final Enum<?>[] enumValues = (Enum<?>[]) headerEnum.getEnumConstants();
             header = new String[enumValues.length];
             for (int i = 0; i < enumValues.length; i++) {
                 header[i] = enumValues[i].name();

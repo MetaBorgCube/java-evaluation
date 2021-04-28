@@ -98,7 +98,7 @@ public final class CSVRecord implements Serializable, Iterable<String> {
             throw new IllegalStateException(
                 "No header mapping was specified, the record values can't be accessed by name");
         }
-        final Integer index = headerMap.get(name);
+        final Integer index = (Integer) headerMap.get(name);
         if (index == null) {
             throw new IllegalArgumentException(String.format("Mapping for %s not found, expected one of %s", name,
                 headerMap.keySet()));
@@ -211,7 +211,7 @@ public final class CSVRecord implements Serializable, Iterable<String> {
      * @return whether a given columns is mapped and has a value
      */
     public boolean isSet(final String name) {
-        return isMapped(name) && getHeaderMapRaw().get(name).intValue() < values.length;
+        return isMapped(name) && ((Integer)getHeaderMapRaw().get(name)).intValue() < values.length;
     }
 
     /**
@@ -236,7 +236,7 @@ public final class CSVRecord implements Serializable, Iterable<String> {
             return map;
         }
         for (final Entry<String, Integer> entry : getHeaderMapRaw().entrySet()) {
-            final int col = entry.getValue().intValue();
+            final int col = ((Integer)entry.getValue()).intValue();
             if (col < values.length) {
                 map.put(entry.getKey(), values[col]);
             }

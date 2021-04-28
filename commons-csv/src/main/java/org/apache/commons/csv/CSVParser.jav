@@ -693,7 +693,7 @@ public final class CSVParser implements Iterable<CSVRecord>, Closeable {
         if (!this.recordList.isEmpty()) {
             this.recordNumber++;
             final String comment = sb == null ? null : sb.toString();
-            result = new CSVRecord(this, this.recordList.toArray(new String[this.recordList.size()]),
+            result = new CSVRecord(this, (String[]) this.recordList.toArray(new String[this.recordList.size()]),
                 comment, this.recordNumber, startCharPosition);
         }
         return result;
