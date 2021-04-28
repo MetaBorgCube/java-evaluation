@@ -1,11 +1,10 @@
 ---
 id: org.metaborg:lang.java.evaluation.commons-io:2.6
+name: commons-io
 dependencies:
   compile:
   - org.metaborg:lang.java:1.1.0-SNAPSHOT
   - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
-  source:
-  # org.metaborg:lang.java.evaluation.jdk_commons:1.8
 sources:
 - language: metaborg-java
   directory: src/main/java
